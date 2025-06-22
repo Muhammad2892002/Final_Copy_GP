@@ -1,0 +1,264 @@
+﻿@using TechQuestions.Entites
+
+@model Question;
+@{
+    Layout = null;
+int timer = ViewBag.Timer; 
+    DateTime date = ViewBag.DeadLine;
+    var currentIndex = ViewBag.Index;
+    var num = currentIndex + 1;
+    var te = ViewBag.Text;
+    var totalQuestions = ViewBag.TotalQuestions ?? 10;
+
+
+    }
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Exam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            user-select: none;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-top: 20px;
+            color: #0056b3;
+            font-weight: 700;
+        }
+
+        .linea {
+            width: 80%;
+            margin: 0 auto 20px;
+            border-top: 3px solid #0056b3;
+        }
+
+        .timer-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #856404;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .question-box {
+            background-color: #ffffff;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-exam {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .question {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+
+        .Answer {
+            margin-bottom: 15px;
+        }
+
+        .Answer input {
+            margin-right: 10px;
+        }
+
+        .button {
+            background-color: #0056b3;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #004494;
+        }
+
+        .navigation-box {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 6px;
+            margin: 40px auto;
+            max-width: 600px;
+        }
+
+        .navigation-box button {
+            padding: 6px;
+            font-size: 0.9rem;
+            border: 1px solid #0056b3;
+            background-color: #e9f0f9;
+            color: #0056b3;
+            border-radius: 5px;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .navigation-box button.active {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .good-luck-text {
+            margin-top: 40px;
+            font-size: 1.5rem;
+            color: #28a745;
+            font-weight: 600;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="title">Exam Page</h1>
+    <hr class="linea">
+
+
+   @*  <div class="timer-box"  id="timer" > @ViewBag.DeadLine</div> *@
+    <div class="text-center">
+        @await Component.InvokeAsync("Timer", new { endTime = date })
+    </div>
+    <div class="main-exam">
+        <div class="card mt-4">
+            <div class="card-body">
+                <form class="sroc" action="IncreaseExamIndex" method="post" id="examForm">
+                    <h1 class="question">
+                        <span class="qid">@num</span> @Model.Body
+                    </h1>
+                    <input type="hidden" name="id" value="@currentIndex">
+
+                    <div class="Answer">
+                        <input type="radio" name="Answer" id="answer1" value="@Model.Answer1">
+                        <label for="answer1">@Model.Answer1</label>
+                    </div>
+
+                    <div class="Answer">
+                        <input type="radio" name="Answer" id="answer2" value="@Model.Answer2">
+                        <label for="answer2">@Model.Answer2</label>
+                    </div>
+
+                    <div class="Answer">
+                        <input type="radio" name="Answer" id="answer3" value="@Model.Answer3">
+                        <label for="answer3">@Model.Answer3</label>
+                    </div>
+
+                    <div class="Answer">
+                        <input type="radio" name="Answer" id="answer4" value="@Model.Answer4">
+                        <label for="answer4">@Model.Answer4</label>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="button" type="submit">@te</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="navigation-box">
+            @for (int i = 1; i <= 30; i++) {
+                <button type="button" class="@(i == num ? "active" : "")">@i</button>
+            }
+        </div>
+    </div>
+   
+
+    <!-- Add somewhere in your HTML body -->
+   @*  <div id="timer" style="font-size: 20px; font-weight: bold;"></div> *@
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+              const EXAM_DURATION_SECONDS = 1800; // 30 minutes
+              const startTime = new Date().getTime();
+              localStorage.setItem('examStartTime', startTime);
+
+              let timerInterval;
+        if (!localStorage.getItem('examStartTime')) {
+              const startTime = new Date().getTime();
+              localStorage.setItem('examStartTime', startTime);
+          }
+
+              function updateTimer() {
+                  const now = new Date().getTime();
+                  const savedStartTime = parseInt(localStorage.getItem('examStartTime'));
+                  const elapsed = Math.floor((now - savedStartTime) / 1000);
+                  const remaining = EXAM_DURATION_SECONDS - elapsed;
+
+                  if (remaining <= 0) {
+                      clearInterval(timerInterval);
+                      $("#timer").text("Time's up ⏰");
+                      localStorage.removeItem('examStartTime');
+                      return;
+                  }
+
+                  const minutes = Math.floor(remaining / 60);
+                  const seconds = remaining % 60;
+                  $("#timer").text(
+                      "Time Remaining: " +
+                      String(minutes).padStart(2, '0') + ":" +
+                      String(seconds).padStart(2, '0')
+                  );
+              }
+
+              $(document).ready(function () {
+                  updateTimer(); // Initial update
+                  timerInterval = setInterval(updateTimer, 1000); // Update every second
+              });
+    </script>
+
+
+
+</body>
+</html>

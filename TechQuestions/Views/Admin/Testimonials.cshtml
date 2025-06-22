@@ -1,0 +1,102 @@
+﻿@using TechQuestions.DTOs
+
+@model List<CommentDTO>
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Comments";
+}
+<head>
+    <style>
+        .new_margin {
+            margin: 100px;
+        }
+    </style>
+</head>
+<div class="page-content page-container new_margin" id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center">
+            <h4 class="col-12">Testominals  Information</h4>
+
+        </div>
+        <div class="row container d-flex justify-content-center">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <br />
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Title</th>
+                                        <th>Comment</th>
+                                        <th>UserName</th>
+                                        <th>UserEmail</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Count != 0 && Model != null)
+                                    {
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <th>@item.Id</th>
+
+                                                <th>@item.Title</th>
+                                                <th>@item.Comment</th>
+
+                                                <th>@item.UserName</th>
+                                                <th>@item.UserEmail</th>
+                                                <th>@item.Date</th>
+                                                <th>
+                                                    @if (!item.IsDeleted)
+                                                    {
+                                                        <i class="fas fa-check" style="color: green;"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="fas fa-times" style="color: red;"></i>
+                                                    }
+                                                </th>
+
+
+                                                <td colspan="3">
+                                                    @if (item.IsDeleted == true)
+                                                    {
+                                                        <a asp-action="UpdateTestimonail"
+                                                           asp-route-Id="@item.Id" asp-route-isApproved="true" type="button" class="btn btn-outline-success">
+                                                            Aprrove
+                                                        </a>
+                                                    }
+                                                    @if (item.IsDeleted == false)
+                                                    {
+                                                        <a asp-action="UpdateTestimonail"
+                                                           asp-route-Id="@item.Id" asp-route-isApproved="false" type="button" class="btn btn-outline-danger">
+                                                            Reject
+                                                        </a>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="8">No Founded Data For Orders</td>
+                                        </tr>
+                                    }
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

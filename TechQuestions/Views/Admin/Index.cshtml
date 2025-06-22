@@ -1,0 +1,187 @@
+﻿@using TechQuestions.DTOs
+@model Tuple<List<CategoryDTO>,MainPageCounterDTO>;
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Dashbaord";
+}
+
+<style>
+
+    .cards_margin{
+        margin:40px;
+    
+    }
+    .new_margin {
+        margin: 100px;
+    }
+    .order-card {
+        color: #fff;
+    }
+
+    .bg-c-blue {
+        background: linear-gradient(45deg,#4099ff,#73b4ff);
+    }
+
+    .bg-c-green {
+        background: linear-gradient(45deg,#2ed8b6,#59e0c5);
+    }
+
+    .bg-c-yellow {
+        background: linear-gradient(45deg,#FFB64D,#ffcb80);
+    }
+
+    .bg-c-pink {
+        background: linear-gradient(45deg,#FF5370,#ff869a);
+    }
+
+
+    .card {
+        border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+        box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+        border: none;
+        margin-bottom: 30px;
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .card .card-block {
+            padding: 25px;
+        }
+
+    .order-card i {
+        font-size: 26px;
+    }
+
+    .f-left {
+        float: left;
+    }
+
+    .f-right {
+        float: right;
+    }
+
+    .panel {
+        box-shadow: 0 2px 0 rgba(0,0,0,0.05);
+        border-radius: 0;
+        border: 0;
+        margin-bottom: 24px;
+    }
+
+    .panel-dark.panel-colorful {
+        background-color: #3b4146;
+        border-color: #3b4146;
+        color: #fff;
+    }
+
+    .panel-danger.panel-colorful {
+        background-color: #f76c51;
+        border-color: #f76c51;
+        color: #fff;
+    }
+
+    .panel-primary.panel-colorful {
+        background-color: #5fa2dd;
+        border-color: #5fa2dd;
+        color: #fff;
+    }
+
+    .panel-info.panel-colorful {
+        background-color: #4ebcda;
+        border-color: #4ebcda;
+        color: #fff;
+    }
+
+    .panel-body {
+        padding: 25px 20px;
+    }
+
+    .panel hr {
+        border-color: rgba(0,0,0,0.1);
+    }
+
+    .mar-btm {
+        margin-bottom: 15px;
+    }
+
+    h2, .h2 {
+        font-size: 28px;
+    }
+
+    .small, small {
+        font-size: 85%;
+    }
+
+    .text-sm {
+        font-size: .9em;
+    }
+
+    .text-thin {
+        font-weight: 300;
+    }
+
+    .text-semibold {
+        font-weight: 600;
+    }
+</style>
+<div class="container new_margin">
+    <div class="row cards_margin">
+        <div class="col-md-4 col-xl-4">
+            <div class="card bg-c-blue order-card">
+                <div class="card-block">
+                    <h6 class="m-b-20">Exams</h6>
+                    <h2 class="text-right"><i class="fa fa-rocket f-left"></i><span>@Model.Item2.ExamCount</span></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-xl-4">
+            <div class="card bg-c-green order-card">
+                <div class="card-block">
+                    <h6 class="m-b-20">Customers</h6>
+                    <h2 class="text-right"><i class="fa fa-rocket f-left"></i><span>@Model.Item2.CustomerCount</span></h2>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-xl-4">
+            <div class="card bg-c-yellow order-card">
+                <div class="card-block">
+                    <h6 class="m-b-20">Qustions</h6>
+                    <h2 class="text-right"><i class="fa fa-refresh f-left"></i><span>@Model.Item2.QuestionCount</span></h2>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- Categories Card Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Explore Categories</h1>
+            <div class="row g-4">
+                @foreach (var category in Model.Item1)
+                {
+                    <div class="col-lg-4 col-sm-6 wow fadeInUp" data-wow-delay="0.2s">
+                        <div style="
+                        border: 1px solid #e0e0e0;
+                        border-radius: 15px;
+                        background: linear-gradient(135deg, #ffffff, #f8f9fa);
+                        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                        padding: 20px;
+                        text-align: center;
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                            <i class="fa fa-3x fa-folder text-primary mb-3" style="color: #007bff;"></i>
+                            <h6 style="font-weight: bold; color: #333; margin-bottom: 15px;">@category.Name</h6>
+                            <p style="color: #666; font-size: 14px;">Category ID: @category.Id</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <!-- Categories Card End -->
+
+</div>

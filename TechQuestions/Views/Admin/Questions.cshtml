@@ -1,0 +1,180 @@
+﻿@using TechQuestions.DTOs
+@using TechQuestions.Entites
+@using TechQuestions.Vm
+@model VmQuestionPageModel
+@{
+
+    int counter = 0;
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Questions";
+}
+<head>
+    <style>
+        .new_margin {
+        margin: 50px;
+        }
+
+        .search {
+        margin-left: 20px !important;
+        margin-top: 20px !important;
+        margin-right: 0px !important;
+        background: #df6d2d;
+        padding: 15px;
+        border-radius: 8px;
+        }
+
+        .form-check {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        }
+
+        .form-check-input {
+        margin-right: 8px;
+        margin-top: 0;
+        }
+
+        .form-label,
+        .form-select,
+        .btn {
+        margin: 0;
+        padding: 0;
+        }
+
+        select.form-select {
+        height: 38px;
+        }
+
+        .btn-success {
+        width: 100%;
+        }
+        .itemAlign{
+
+        margin-left:150px !important;
+        align-content:center;
+
+        }
+    </style>
+</head>
+<div class="container new_margin">
+    <form method="post" asp-action="SearchQuastions">
+        <div class="row search text-white align-items-center">
+            <div class="col-md-3">
+                <select class="form-select"  asp-for="Filter.TitleId" >
+                   
+                    @foreach (var item in Model.JobTitles)
+                    {
+                        <option Value="@item.Id">@item.Title</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select asp-for="Filter.Type" class="form-select">
+                    <option selected disabled>Select Level</option>
+                    <option Value="Easy">Easy</option>
+                    <option Value="Mid">Mid</option>
+                    <option Value="Advanced">Advanced</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <div class="form-check">
+                    <input asp-for="Filter.IsDeleted" class="form-check-input" type="checkbox" />
+                    <label class="form-check-label" >Is Deleted</label>
+                </div>
+            </div>
+            <div class="col-md-4">
+               <input type="submit" class="btn btn-success"/>
+            </div>
+        </div>
+    </form>
+
+</div>
+<div class="page-content new_margin  page-container" id="page-content">
+    <div class="padding">
+
+
+
+        <div class="row container d-flex justify-content-center">
+            <h4 class="col-8">Questions List</h4>
+            <a type="button" asp-action="CreateQuestion" class="col-4 btn btn-info" style="float:right">Create Question</a>
+
+        </div>
+
+        <div class="row container d-flex justify-content-center">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <br />
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th># of Quastions</th>
+                                        <th>Image</th>
+                                        <th>Body</th>
+                                        <th>Level</th>
+                                        <th>Job Title</th>
+
+                                        <th>Type</th>
+                                        <th>Time</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Questions.Count != 0 && Model != null)
+                                    {
+                                        @foreach (var question in Model.Questions)
+                                        {
+                                            counter++;
+                                           
+
+                                            <tr>
+                                                <td>@counter</td>
+                                                <td>
+                                                    @if (!string.IsNullOrEmpty(question.MultiMediaPath))
+                                                    {
+                                                        <a href="@question.MultiMediaPath" target="_blank">View Multimedia</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>No Multimedia</span>
+                                                    }
+                                                </td>
+                                                <td>@question.Body</td>
+                                                <td>@question.Level</td>
+                                                <td>@question.JobTitle</td>
+                                                
+                                                <td>@question.Type</td>
+                                                <td>@question.Time</td>
+                                                <td>
+
+                                                    <a asp-action="QuestionDetails" asp-route-Id="@question.Id" class="btn btn-outline-info">Get Detilas</a>
+                                                    <a asp-action="UpdateQuestion" asp-route-Id="@question.Id" class="btn btn-outline-warning">Edit</a>
+                                                    @if( ViewBag.isDeleted==false){
+                                                    <a asp-action="DeleteQuestion" asp-route-Id="@question.Id" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete this question?');">Delete</a>
+                                                    }
+                                                    @if( ViewBag.isDeleted==true){
+                                                        <a asp-action="ActiveQuastion" asp-route-Id="@question.Id" class="btn btn-outline-success">Active</a>
+                                                    
+                                                    }
+                                                    
+                                                   
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="8">No questions found.</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

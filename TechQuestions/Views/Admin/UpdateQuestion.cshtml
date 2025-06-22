@@ -1,0 +1,88 @@
+﻿@using TechQuestions.DTOs
+@using TechQuestions.Entites
+@model Tuple<Question, List<JobTitle>>
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Questions";
+}
+<div class="register-container">
+    <div class="register-header">Update New Question</div>
+    <div class="row">
+        <div class="col-12">
+            <form class="register-form" asp-action="UpdateQuestion" method="post">
+                <select class="form-select" name="jobTitleId" required>
+                    <option value="" selected>Open this job Title list</option>
+                    @foreach (var item in Model.Item2)
+                    {
+                        @if (item.IsDeleted == false) { 
+                        <option value="@item.Id">@item.Title</option>
+                        }
+                    }
+
+
+                </select>
+                <div class="form-group">
+                    <label for="firstname">Current Level</label>
+                    <input type="text" id="level" name="level" value="@Model.Item1.Level"
+                           readonly>
+                </div>
+                <br />
+                <select class="form-select" name="Level" required>
+                    <option selected disabled value="">Select Question Level</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Mid">Intermediate</option>
+                    <option value="Advance">Advanced</option>
+                </select>
+                <div class="form-group">
+                    <label for="firstname">Type</label>
+                    <input type="text" id="name" name="name" value="@Model.Item1.Type"
+                           readonly>
+                </div>
+                <div class="form-group">
+                    <label for="lastname">Body</label>
+                    <input type="text" id="body" name="body" required value="@Model.Item1.Body">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Image</label>
+                    <input type="file" id="image" name="image" accept="images/*">
+                </div>
+                <div class="form-group">
+                    <label for="firstname">Answer 1</label>
+                    <input type="text" id="ans1" name="ans1" value="@Model.Item1.Answer1"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="firstname">Answer 2 </label>
+                    <input type="text" id="ans2" name="ans2" value="@Model.Item1.Answer2"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="firstname">Answer 3 </label> 
+                    <input type="text" id="ans3" name="ans3" value="@Model.Item1.Answer3"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="firstname">Answer 4 </label>
+                    <input type="text" id="ans4" name="ans4" value="@Model.Item1.Answer4"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="firstname">Current Correct Answer</label>
+                    <input type="text" id="correct" name="correct" value="@Model.Item1.CorrectAnswer"
+                           readonly>
+                </div>
+                <div class="form-group">
+                    <label for="isMultiple">Which Is The Correct Choice</label>
+                    <select class="form-control" id="corrcetIndex" name="corrcetIndex">
+                        <option value="0">Answer 1 </option>
+                        <option value="1">Answer 2</option>
+                        <option value="2">Answer 3</option>
+                        <option value="3">Answer4</option>
+                    </select>
+                </div>
+                <button type="submit" class="register-button">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</div>

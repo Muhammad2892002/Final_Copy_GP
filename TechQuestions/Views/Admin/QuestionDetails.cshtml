@@ -1,0 +1,117 @@
+﻿@using TechQuestions.DTOs
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Questions";
+}
+@model QuestionDetailsDTO;
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center">
+            <h4 class="col-12">Question Details</h4>
+        </div>
+
+        <div class="row container d-flex justify-content-center">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <br />
+                <div class="card">
+                    <div class="card-body">
+                        <form>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Job Title</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" value="@Model.JobTitle.Title" disabled />
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Job Title Description</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" rows="3" disabled>@Model.JobTitle.Description</textarea>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Job Category</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" value="@Model.JobTitle.Category" disabled />
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Question Body</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" rows="3" disabled>@Model.Question.Body</textarea>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Question Type</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" value="@Model.Question.Type" disabled />
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Level</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" value="@Model.Question.Level" disabled />
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Answer 1</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" value="@Model.Question.Answer1" disabled />
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Answer 2</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" value="@Model.Question.Answer2" disabled />
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Answer 3</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" value="@Model.Question.Answer3" disabled />
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Answer 4</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" value="@Model.Question.Answer4" disabled />
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Correct Answer</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" value="@Model.Question.CorrectAnswer" disabled />
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Multimedia</label>
+                                <div class="col-sm-10">
+                                    @if (!string.IsNullOrEmpty(Model.Question.MultiMediaPath))
+                                    {
+                                        <a href="@Model.Question.MultiMediaPath" target="_blank">View Multimedia</a>
+                                    }
+                                    else
+                                    {
+                                        <span>No Multimedia</span>
+                                    }
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

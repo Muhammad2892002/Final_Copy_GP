@@ -1,0 +1,40 @@
+﻿@using TechQuestions.DTOs
+@using TechQuestions.Entites
+@model Tuple<List<CategoryDTO>,JobTitle>
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "JobTitles";
+}
+<div class="register-container">
+    <div class="register-header">Update Job Title</div>
+    <div class="row">
+        <div class="col-12">
+            <form class="register-form" asp-action="UpdateJobTitle" method="post">
+                <input type="number" id="JobTitleId" name="JobTitleId"
+                       hidden value="@Model.Item2.Id">
+                <select class="form-select" name="category" required>
+                    <option  value=""selected>Open this category list</option>
+                    @foreach (var item in Model.Item1)
+                    {
+                        <option value="@item.Name">@item.Name</option>
+                    }
+                </select>
+                <div class="form-group">
+                    <label for="firstname">Title</label>
+                    <input type="text" id="title" name="title"
+                            value="@Model.Item2.Title" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastname">Description</label>
+                    <input type="text" id="desc" name="desc" value="@Model.Item2.Description" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Image</label>
+                    <input type="file" id="image" name="image" accept="images/*">
+                </div>
+
+                <button type="submit" class="register-button">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</div>

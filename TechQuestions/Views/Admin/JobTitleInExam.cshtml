@@ -1,0 +1,95 @@
+﻿@{
+    Layout = "_LayoutAdmin";
+}
+@using TechQuestions.Entites;
+@model List<JobTitle>
+
+<style>
+
+    .chart-container {
+        margin: 60px auto;
+    }
+
+    .chart-card {
+        border-radius: 15px;
+        padding: 20px;
+        background-color: #f8f9fa;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+        .chart-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .chart-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    canvas {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .card-link {
+        text-decoration: none;
+        color: inherit;
+        transition: transform 0.2s ease-in-out;
+        display: block;
+    }
+
+        .card-link:hover .card {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            transform: scale(1.03);
+        }
+
+    .card {
+        border: none;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .card-body {
+        padding: 25px;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .card-text {
+        font-size: 0.95rem;
+        color: #555;
+    }
+    .new_style{
+        margin:50px;
+    
+    
+    }
+</style>
+
+<div class="container card-container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4 new_style">
+                <a asp-action="Exams" asp-Route-IdJob="@item.Id" class="card-link">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Title</h5>
+                            <p class="card-text">@item.Description</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+ 
+
+
+</div>

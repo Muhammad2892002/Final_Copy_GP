@@ -1,0 +1,58 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Error ";
+}
+
+<div class="container text-center py-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow-lg border-0">
+                <div class="card-body">
+                    <!-- Error Icon -->
+                    <div class="display-1 text-danger mb-3">
+                        <i class="bi bi-exclamation-circle"></i>
+                    </div>
+
+                    <!-- Error Title -->
+                    <h1 class="display-4 text-danger">
+                        @ViewBag.ErrorTitle
+                    </h1>
+
+                    <!-- Error Description -->
+                    <p class="lead text-muted mt-3">
+                        Something went wrong, and the requested action couldn't be completed.
+                    </p>
+
+                    <!-- Error Timestamp -->
+                    <p class="text-muted small">
+                        Error Timestamp: <strong>@ViewBag.Time</strong>
+                    </p>
+
+                    <!-- Action Buttons -->
+                    <div class="mt-4">
+                        <!-- Button to Return Home -->
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-primary btn-lg">
+                            <i class="bi bi-house-door"></i> Return to Home
+                        </a>
+
+                        <!-- Button to Contact Support -->
+                        <a href="@Url.Action("Support", "Home")" class="btn btn-secondary btn-lg">
+                            <i class="bi bi-life-preserver"></i> Contact Support
+                        </a>
+
+                        <!-- Dynamic Button -->
+                        <a href="@Url.Action( (string)ViewData["ReturnController"],(string)ViewData["ReturnAction"])" class="btn btn-info btn-lg">
+                            <i class="bi bi-arrow-left-circle"></i> Go Back
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include Bootstrap Icons (if not already included) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">

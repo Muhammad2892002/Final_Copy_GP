@@ -1,0 +1,28 @@
+﻿@model TimeSpan
+
+<div id="countdown" class="timer-box">Loading timer...</div>
+
+<script>
+    let totalSeconds = @((int)Model.TotalSeconds);
+
+    function updateTimer() {
+        if (totalSeconds <= 0) {
+            document.getElementById("countdown").textContent = "Time's up!";
+            document.getElementById("examForm")?.submit();
+                 window.location.href = '/Customer/SubmitExam';
+            // Auto-submit form
+            clearInterval(timerInterval);
+            return;
+        }
+
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        document.getElementById("countdown").textContent =
+            `Time Left: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+        totalSeconds--;
+    }
+
+    updateTimer(); // initial display
+    const timerInterval = setInterval(updateTimer, 1000); // update every second
+</script>

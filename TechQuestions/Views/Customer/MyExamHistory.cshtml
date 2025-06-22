@@ -1,0 +1,199 @@
+﻿@using TechQuestions.Entites
+@using TechQuestions.Services;
+@model List<Exam>
+
+@{
+    Layout = "_LayoutUser";
+    ViewData["Title"] = "Exams List";
+    var flag = ViewBag.IsHaveTest;
+    Service1 service1 = new Service1();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exams List</title>
+    <style>
+        body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #eef2f3;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        }
+
+        .table-container {
+        width: 90%;
+        max-width: 1200px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        }
+
+        table {
+        width: 100%;
+        border-collapse: collapse;
+        }
+
+        thead {
+        background-color: #00B074;
+        color: #fff;
+        text-transform: uppercase;
+        }
+
+        th, td {
+        padding: 12px 15px;
+        text-align: left;
+        font-size: 14px;
+        }
+
+        th {
+        font-weight: bold;
+        }
+
+        tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+        }
+
+        tbody tr:hover {
+        background-color: #f1f1f1;
+        }
+
+        .action-buttons {
+        display: flex;
+        gap: 10px;
+        }
+
+        .action-buttons a, .action-buttons button {
+        padding: 8px 12px;
+        font-size: 12px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        color: #fff;
+        cursor: pointer;
+        text-align: center;
+        }
+
+        .btn-view {
+        background-color: #007bff;
+        }
+
+        .btn-edit {
+        background-color: #ffc107;
+        }
+
+        .btn-delete {
+        background-color: #dc3545;
+        }
+
+        .btn-view:hover {
+        background-color: #0056b3;
+        }
+
+        .btn-edit:hover {
+        background-color: #e0a800;
+        }
+
+        .btn-delete:hover {
+        background-color: #c82333;
+        }
+
+        @@media (max-width: 768px) {
+        th, td
+
+        {
+        font-size: 12px;
+        padding: 8px 10px;
+        }
+
+        .action-buttons a, .action-buttons button {
+        font-size: 10px;
+        padding: 6px 8px;
+        }
+
+        }
+    </style>
+</head>
+<body>
+
+    <div class="table-container" style="margin-left:5%;margin-top:50px">
+        @if (flag!=true)
+        {
+            <div>
+                <a type="button" class="btn btn-outline-success" style="float:right" asp-action="CreateTestimonial">Create Testimonial</a>
+            </div>
+            <br />
+            <br />
+
+        }
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Exam Date</th>
+                    <th>Deadline</th>
+                    <th>Job Title</th>
+                    <th>Exam Level</th>
+                    <th>Score</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count > 0)
+                {
+                    int index = 1;
+                    foreach (var exam in Model)
+                    {
+                        <tr>
+                            <td>@index</td>
+                            <td>@exam.Title</td>
+                            <td>@exam.ExamDate.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>@exam.ExamDeadLine.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>@exam.JobTitle</td>
+                            <td>@exam.ExamLevel</td>
+                            <td>@(exam.Score)</td>
+                            @{
+                                int numericalScore = service1.TurnMarkToInt(exam.Score);
+                                if (exam.ExamLevel == "Easy" && numericalScore >= 20)
+                                {
+                                    <td>Passed</td>
+
+                                }
+                                else if (exam.ExamLevel == "Mid" && numericalScore >= 17)
+                                {
+
+                                    <td>Passed</td>
+                                }
+                                else if (exam.ExamLevel == "Advanced" && numericalScore >= 18)
+                                {
+
+                                    <td>Passed</td>
+                                }
+                                else { 
+                                    <td>Failed</td>
+                                
+                                }
+
+                            }
+                        </tr>
+                        index++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" style="text-align: center;">No exams found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

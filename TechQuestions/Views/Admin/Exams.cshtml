@@ -1,0 +1,214 @@
+﻿@using TechQuestions.DTOs;
+@using TechQuestions.Vm;
+@using System.Text.Json;
+@using Newtonsoft.Json;
+
+
+@model Tuple<List<ExamDTO>,List<ChartsData>,List<ChartsData>,List<ChartsData>>;
+@* @model List<ExamDTO> *@
+@{
+    int counter = 0;
+    var easyChartLabels = Model.Item2.Select(c => c.Name).ToList();
+    var easyChartData = Model.Item2.Select(c => c.Scores).ToList();
+
+    var midChartLabels = Model.Item3.Select(c => c.Name).ToList();
+    var midChartData = Model.Item3.Select(c => c.Scores).ToList();
+
+    var advancedChartLabels = Model.Item4.Select(c => c.Name).ToList();
+    var advancedChartData = Model.Item4.Select(c => c.Scores).ToList();
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Exams";
+}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<head>
+    <style>
+        .new_margin{
+        margin:100px;
+
+        }
+        .chart-section {
+        margin: 50px auto;
+        padding: 20px;
+        max-width: 1200px;
+        }
+
+        .chart-title {
+        font-weight: bold;
+        font-size: 1.25rem;
+        margin-bottom: 10px;
+        text-align: center;
+        }
+
+        canvas {
+        max-height: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-content page-container new_margin" id="page-content">
+        <div class="padding">
+            <div class="row container d-flex justify-content-center">
+                <h4 class="col-12">Exams List</h4>
+            </div>
+
+            <div class="row container d-flex justify-content-center">
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <br />
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th># of Exams</th>
+                                            <th>Id</th>
+                                            <th>Title</th>
+                                            <th>Exam Date</th>
+                                            <th>Deadline</th>
+                                            <th>Level</th>
+                                            <th>Questions Count</th>
+                                            <th>Customer</th>
+                                            <th>Job Title</th>
+                                            <th>Score</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.Item1.Count != 0 && Model.Item1 != null)
+                                        {
+                                            @foreach (var exam in Model.Item1)
+                                            {
+                                                counter++;
+                                                <tr>
+                                                <td>@counter</td>
+                                                <td>@exam.Id</td>
+                                                <td>@exam.Title</td>
+                                                <td>@exam.ExamDate</td>
+                                                <td>@exam.ExamDeadLine</td>
+                                                <td>@exam.ExamLevel</td>
+                                                <td>
+                                                    Easy: @exam.QuestionCountInEasyLevel <br />
+                                                    Intermediate: @exam.QuestionCountInIntermidateLevel <br />
+                                                    Hard: @exam.QuestionCountInHardLevel
+                                                </td>
+                                                <td>@exam.Customer</td>
+                                                <td>@exam.JobTitle</td>
+                                                <td>@exam.Score</td>
+                                                <td>
+                                                    <a asp-action="ExamQuestionDetails" asp-route-Id="@exam.Id" class="btn btn-outline-info">View Details</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="10">No exams found.</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+                <canvas class="new_margin" id="myChartEasy" style="width:100%;max-width:700px"></canvas>
+
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <canvas class="new_margin" id="myChartMid" style="width:100%;max-width:700px"></canvas>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+
+                <canvas class="new_margin" id="myChartAdvanced" style="width:100%;max-width:700px"></canvas>
+            </div>
+        </div>
+           
+            
+        
+    
+     
+
+
+
+
+
+
+ 
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+<script>
+    // Razor data injected as JS arrays
+    const easyLabels = @Html.Raw(JsonConvert.SerializeObject(easyChartLabels)); // Student names
+    const easyData = @Html.Raw(JsonConvert.SerializeObject(easyChartData));     // Grades
+
+    const midLabels = @Html.Raw(JsonConvert.SerializeObject(midChartLabels));
+    const midData = @Html.Raw(JsonConvert.SerializeObject(midChartData));
+
+    const advancedLabels = @Html.Raw(JsonConvert.SerializeObject(advancedChartLabels));
+    const advancedData = @Html.Raw(JsonConvert.SerializeObject(advancedChartData));
+
+    function renderChart(canvasId, labels, data, title) {
+        new Chart(canvasId, {
+            type: "line",  // Change to line chart
+            data: {
+                labels: labels, // X-axis: students
+                datasets: [{
+                    label: "Exam Grade",
+                    backgroundColor: "rgba(0,0,255,0.1)",  // Transparent background
+                    borderColor: "rgba(0,0,255,1.0)",      // Solid line color
+                    borderWidth: 2,                        // Line width
+                    fill: false,                            // Do not fill under the line
+                    data: data                              // Y-axis: grades
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: title
+                },
+                legend: { display: false },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 5,  // For 0, 5, 10, ..., 30
+                            max: 30
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Grade"
+                        }
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Students"
+                        }
+                    }]
+                }
+            }
+        });
+    }
+
+    renderChart("myChartEasy", easyLabels, easyData, "Easy Exam Grades");
+    renderChart("myChartMid", midLabels, midData, "Mid Exam Grades");
+    renderChart("myChartAdvanced", advancedLabels, advancedData, "Advanced Exam Grades");
+</script>
+
+

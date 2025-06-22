@@ -1,0 +1,119 @@
+﻿@using TechQuestions.DTOs
+@model List<ExamQuestionDetailDTO>
+@{
+    int counter =0;
+    void increment() {
+        counter++;
+        <p>counter</p>
+
+
+    }
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Exams";
+}
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center">
+            <h4 class="col-12">Exam Question Details</h4>
+        </div>
+
+        <div class="row container d-flex justify-content-center">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <br />
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th># of Quastions</th>
+                                        <th>Exam Title</th>
+                                        <th>Exam Date</th>
+                                        <th>Exam Deadline</th>
+                                        <th>Job Title</th>
+                                        <th>Exam Level</th>
+                                        <th>Score</th>
+                                        <th>Question Body</th>
+                                        <th>Question Type</th>
+                                        <th>Answer1</th>
+                                        <th>Answer2</th>
+                                        <th>Answer3</th>
+                                        <th>Answer4</th>
+                                        <th>Correct Answer</th>
+                                        <th>Multimedia</th>
+                                        <th>User Name</th>
+                                        <th>User Email</th>
+                                        <th>User Phone</th>
+                                        <th>Answer Body</th>
+                                        <th>Mark</th>
+                                        <th>Is Correct?</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null && Model.Count > 0)
+                                    {
+                                        @foreach (var detail in Model)
+                                        {
+                                            counter++;
+                                            <tr>
+                                                <td> @counter</td>
+                                                <td>@detail.Exam.Title</td>
+                                                <td>@detail.Exam.ExamDate.ToShortDateString()</td>
+                                                <td>@detail.Exam.ExamDeadLine.ToShortDateString()</td>
+                                                <td>@detail.Exam.JobTitle</td>
+                                                <td>@detail.Exam.ExamLevel</td>
+                                                <td>@detail.Exam.Score</td>
+
+                                                <td>@detail.Question.Body</td>
+                                                <td>@detail.Question.Type</td>
+                                                <td>@detail.Question.Answer1</td>
+                                                <td>@detail.Question.Answer2</td>
+                                                <td>@detail.Question.Answer3</td>
+                                                <td>@detail.Question.Answer4</td>
+                                                <td>@detail.Question.CorrectAnswer</td>
+
+                                                <td>
+                                                    @if (!string.IsNullOrEmpty(detail.Question.MultiMediaPath))
+                                                    {
+                                                        <a href="@detail.Question.MultiMediaPath" target="_blank">View Multimedia</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>No Multimedia</span>
+                                                    }
+                                                </td>
+
+                                                <td>@detail.User.FirstName @detail.User.LastName</td>
+                                                <td>@detail.User.Email</td>
+                                                <td>@detail.User.Phone</td>
+
+                                                <td>@detail.ExamQuestion.AnswerBody</td>
+                                                <td>@detail.ExamQuestion.Mark</td>
+                                                <td>
+                                                    @if (detail.ExamQuestion.Mark==1)
+                                                    {
+                                                        <i class="fas fa-check" style="color: green;"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="fas fa-times" style="color: red;"></i>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="20">No exam details found.</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
